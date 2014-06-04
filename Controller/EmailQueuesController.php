@@ -47,17 +47,24 @@ class EmailQueuesController extends EmailQueueAppController
             switch ($filter['EmailQueue']['status']) {
                 case EmailQueue::EMAIL_STATUS_SENT:
                     $conditions['EmailQueue.sent'] = true;
+                    $conditions['EmailQueue.black_listed ='] = false;
                     break;
                 case EmailQueue::EMAIL_STATUS_SENDING:
                     $conditions['EmailQueue.locked'] = true;
+                    $conditions['EmailQueue.black_listed ='] = false;
                     break;
                 case EmailQueue::EMAIL_STATUS_ERROR:
                     $conditions['EmailQueue.send_tries >='] = 4;
+                    $conditions['EmailQueue.black_listed ='] = false;
                     break;
                 case EmailQueue::EMAIL_STATUS_PENDING:
                     $conditions['EmailQueue.sent'] = false;
                     $conditions['EmailQueue.locked'] = false;
+                    $conditions['EmailQueue.black_listed ='] = false;
                     $conditions['EmailQueue.send_tries <'] = 4;
+                    break;
+                    case EmailQueue::EMAIL_STATUS_BLACK_LISTED:
+                        $conditions['EmailQueue.black_listed ='] = true;
                     break;
             }
         }

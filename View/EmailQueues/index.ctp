@@ -81,7 +81,7 @@
             </th>
             <th style="vertical-align: top;">
             <?php
-                $options = array(EmailQueue::EMAIL_STATUS_SENT, EmailQueue::EMAIL_STATUS_SENDING, EmailQueue::EMAIL_STATUS_ERROR, EmailQueue::EMAIL_STATUS_PENDING);
+                $options = array(EmailQueue::EMAIL_STATUS_SENT, EmailQueue::EMAIL_STATUS_SENDING, EmailQueue::EMAIL_STATUS_ERROR, EmailQueue::EMAIL_STATUS_PENDING,EmailQueue::EMAIL_STATUS_BLACK_LISTED);
                 echo $this->Form->input('EmailQueue.status',
                     array(
                         'label' => __('Status'),

@@ -47,10 +47,18 @@ class SenderShell extends AppShell {
 		/* @var $emailQueue EmailQueue */
 		$emailQueue = ClassRegistry::init('EmailQueue.EmailQueue');
 		
+		/* @var $emailBlackList EmailBlackList */
+		$emailBlackList = ClassRegistry::init('EmailQueue.EmailBlackList');
+		
 		Router::setRequestInfo(new CakeRequest(Configure::read('App.baseUrl'), false));
 
 		$emails = $emailQueue->getBatch($this->params['limit']);
 		foreach ($emails as $e) {
+		    $isBlackListed = $emailBlackList->isEmailInBlackList($e['EmailQueue']['to']);
+		    if(isBlackListed) {
+		        continue;
+		    }
+		    
 			$configName = $e['EmailQueue']['config'] === 'default' ? $this->params['config'] : $e['EmailQueue']['config'];
 			$template = $e['EmailQueue']['template'] === 'default' ? $this->params['template'] : $e['EmailQueue']['template'];
 			$layout = $e['EmailQueue']['layout'] === 'default' ? $this->params['layout'] : $e['EmailQueue']['layout'];
