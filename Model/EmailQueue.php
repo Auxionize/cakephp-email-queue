@@ -13,6 +13,7 @@ class EmailQueue extends AppModel {
     const EMAIL_STATUS_SENDING = 'sending';
     const EMAIL_STATUS_PENDING = 'pending';
     const EMAIL_STATUS_ERROR = 'error';
+    const EMAIL_STATUS_BLACK_LISTED = 'black listed';
 
 /**
  * Name
@@ -111,6 +112,7 @@ class EmailQueue extends AppModel {
             'limit' => $size,
             'conditions' => array(
                 'EmailQueue.sent' => false,
+                'EmailQueue.black_listed' => false,
                 'EmailQueue.send_tries <=' => 3,
                 'EmailQueue.send_at <=' => gmdate('Y-m-d H:i:s'),
                 'EmailQueue.locked' => false
